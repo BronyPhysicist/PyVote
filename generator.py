@@ -11,11 +11,7 @@ def create_citizens():
         if(i % 100 is 0):
             print("Creating citizen "+str(i)+"...")
         citizen = Citizen()
-        cit_str = citizen.name+","+citizen.town+','
-        for issue in citizen.issues:
-            cit_str += str(issue)+','
-        cit_str = cit_str[:-1]+'\n'
-        f.write(cit_str)
+        f.write(citizen.csv_string())
     f.close()
     
-create_citizens()
+#create_citizens()

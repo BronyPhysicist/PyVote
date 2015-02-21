@@ -34,3 +34,13 @@ class Citizen(object):
 			issue_sum += float((issue - self.issues[i])*(issue-self.issues[i]))
 		issue_sum /= party.N_ISSUES
 		return math.sqrt(sum)
+	
+	def csv_string(self):
+		csv = self.name+","+self.town+','
+		for issue in self.issues:
+			csv += str(issue)+','
+		if csv[-1] is ',':
+			csv = csv[:-1]
+		if csv[-1] is not '\n':
+			csv += '\n'
+		return csv
