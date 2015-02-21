@@ -3,20 +3,31 @@ Created on Feb 21, 2015
 
 @author: OWNERPC
 '''
-from citizen import Citizen
-import party
+from citizen import *
+import matplotlib.pyplot as plt
+from town import Town
+ 
+def analysis(fname):
+    citizens = read_citizens_csv(fname)
+    avgs = []
+    for citizen in citizens:
+        avgs.append(citizen.political_avg())
+        citizen.town.add_person(citizen)
 
-def create_citizens():
-    print("Population Settings\n================================")
-    print("Political Avg: "+str(party.populace_avg()))
-    for n in range(0, len(party.parties)):
-        print(party.names[n]+' Average: '+str(party.political_avg(n)))
-    f = open('voters.txt','w')
-    for i in range(0,5000):
-        if(i % 100 is 0):
-            print("Creating citizen "+str(i)+"...")
-        citizen = Citizen()
-        f.write(citizen.csv_string())
-    f.close()
+    # the histogram of the data
+    n, bins, patches = plt.hist(avgs, 40, facecolor='green')
+    
+    plt.xlabel('Politics')
+    plt.ylabel('Voters')
+    plt.axis([0, 4, 0, 600])
+    
+    for town in Town:
+        avg = 0
+        for citizen in town.pop:
+            avg += citizen.political_avg()
+        print("The average political measurement for "+town.name+" is "+str(avg/len(town.pop)))
+
+    plt.show()
     
 create_citizens()
+analysis("./data/voters.txt")

@@ -15,12 +15,12 @@ class Town(Enum):
 	Ipswich = 8
 	Jonesboro = 9
 	
-	def __init__(self, pop):
-		self.pop = pop
+	def __init__(self, number):
+		self.pop = []
 	
 	@classmethod	
 	def rand_town(cls):
-		i = randint(0,N_TOWNS)
+		i = randint(0,N_TOWNS-1)
 		for town in list(Town):
 			if town.value is i:
 				return town

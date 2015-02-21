@@ -5,7 +5,7 @@ Created on Feb 21, 2015
 '''
 from faker import Faker
 from town import Town
-import util
+from util import issue_mod
 
 class Candidate():
     
@@ -15,5 +15,5 @@ class Candidate():
         self.town = Town.rand_town()
         self.party = party
         
-        self.issues = util.issue_mod(party, 0.9)
+        self.issues = issue_mod(party, 0.9)
         

@@ -1,18 +1,16 @@
 from faker import Faker
 from town import Town
-import util
+from util import issue_mod
 import party
 import math
-from party import political_avg
 
 class Citizen(object):
 	
-	
-	def __init__(self):
-		fake = Faker()
-		self.name = fake.name()
-		self.town = Town.rand_town()
-		self.issues = util.issue_mod(party.select_party(), 0.8)
+	def __init__(self, name, town, issues):
+		self.name = name; self.town = town; self.issues = issues
+		
+	def set_issues(self):
+		self.issues = issue_mod(party.select_party(self.town), 0.8)
 		
 	def calc_allegiance(self):
 		sums = [0]*10
@@ -52,3 +50,29 @@ class Citizen(object):
 		for issue in self.issues:
 			sm += issue
 		return sm/party.N_ISSUES
+	
+def read_citizens_csv(fname):
+	citizens = []
+	f = open(fname)
+	txt = f.read().split('\n')
+	for line in txt:
+		if line is '':
+			continue
+		tks = line.split(',')
+		citizens.append(Citizen(tks[0], Town[tks[1]], [int(tks[2]),int(tks[3]),int(tks[4]),int(tks[5]),int(tks[6]),
+                                                 int(tks[7]),int(tks[8]),int(tks[9]),int(tks[10]),int(tks[11])]))
+	return citizens
+
+def create_citizens():
+	print("Population Settings\n================================")
+	print("Political Avg: "+str(party.populace_avg()))
+	for n in range(0, len(party.parties)):
+		print(party.names[n]+' Average: '+str(party.political_avg(n)))
+	f = open('./data/voters.txt','w')
+	for i in range(0,5000):
+		if(i % 100 is 0):
+			print("Creating citizen "+str(i)+"...")
+		town = Town.rand_town()	
+		citizen = Citizen(Faker().name(), town, issue_mod(party.select_party(town), 0.8));
+		f.write(citizen.csv_string())
+	f.close()

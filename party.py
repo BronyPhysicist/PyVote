@@ -32,7 +32,7 @@ N_ISSUES = 10
 
 LBL = [0,1,1,0,1,1,1,0,0,1]
 CON = [3,4,4,3,4,3,3,3,4,3]
-LBT = [1,4,4,1,1,2,2,2,3,0]
+LBT = [1,4,4,1,2,2,2,2,3,0]
 GRN = [1,1,1,0,0,1,1,1,1,1]
 SOC = [1,1,0,1,1,0,1,1,0,1]
 CHR = [4,3,3,1,2,3,3,3,3,4]
@@ -47,10 +47,25 @@ parties = [LBL,CON,LBT,GRN,SOC,CHR,CEN,TAX,TEC,RDM]
 
 names   = ['LBL','CON','LBT','GRN','SOC','CHR','CEN','TAX','TEC','RDM']
 
-lbl_pct, con_pct, lbt_pct, grn_pct, soc_pct, chr_pct, cen_pct, tax_pct, tec_pct = 20,17,13,9,10,10,10,6,5 
+lbl_pct, con_pct, lbt_pct, grn_pct, soc_pct, chr_pct, cen_pct, tax_pct, tec_pct = 20,17,13,9,10,10,10,6,5
 
-def select_party():
-	return parties[random.choice([0]*lbl_pct + [1]*con_pct + [2]*lbt_pct + [3]*grn_pct + [4]*soc_pct + [5]*chr_pct + [6]*cen_pct + [7]*tax_pct + [8]*tec_pct)]
+selection_pct = [[20,17,13,9,10,10,10,6,5],
+[21,18,14,10,7,8,12,7,3],
+[16,17,17,8,6,8,15,5,8],
+[20,18,14,11,5,7,10,8,7],
+[14,15,15,12,10,11,8,4,11],
+[25,22,20,12,3,5,9,2,2],
+[14,20,20,6,3,12,14,9,2],
+[25,15,18,12,5,4,12,2,7],
+[17,22,12,4,4,14,13,11,3],
+[14,22,16,5,4,14,10,11,4]]
+
+def select_party(town):
+	n = 0
+	select_list = []
+	for pct in selection_pct[town.value]:
+		select_list += [n]*pct
+	return parties[random.choice(select_list)]
 
 def political_avg(index):
 	if index >= len(parties):

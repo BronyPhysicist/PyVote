@@ -3,8 +3,8 @@ Created on Feb 21, 2015
 
 @author: OWNERPC
 '''
-
 from random import uniform
+
 
 def issue_mod(issues, prob):
     for n in range(0,len(issues)):
