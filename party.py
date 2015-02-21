@@ -42,18 +42,3 @@ parties = [LBL,CON,LBT,GRN,SOC,CHR,CEN,TAX,TEC,RDM]
 
 def select_party():
 	return parties[random.choice([0]*20 + [1]*17 + [2]*13 + [3]*9 + [4]*10 + [5]*10 + [6]*10 + [7]*6 + [8]*5)]
-
-def calc_allegiance(citizen):
-	sums = [0]*10
-	for i,party in enumerate(parties):
-		for n,issue in enumerate(party):
-			sums[i] += float((issue - citizen.issues[n])*(issue - citizen.issues[n]))
-		sums[i] /= 10
-		sums[i] = math.sqrt(sums[i])
-	lowest = 2
-	best_match = -1
-	for n in range(0,len(sums)):
-		if sums[n] < lowest:
-			lowest = sums[n]
-			best_match = n
-	return parties[best_match]

@@ -1,7 +1,8 @@
 from faker import Faker
-from random import *
-from towns import Town
+from town import Town
+import util
 import party
+import math
 
 class Citizen(object):
 	
@@ -10,15 +11,26 @@ class Citizen(object):
 		fake = Faker()
 		self.name = fake.name()
 		self.town = Town.rand_town()
-		self.issues = party.select_party()
-		for n in range(0,len(self.issues)):
-			if uniform(0,1) < 0.8:
-				if self.issues[n] is 0:
-					self.issues[n] += 1
-				elif self.issues[n] is 2:
-					self.issues[n] -= 1
-				else:
-					if uniform(0,1) < 0.5:
-						self.issues[n] -= 1
-					else:
-						self.issues[n] += 1
+		self.issues = util.issue_mod(party.select_party())
+		
+	def calc_allegiance(self):
+		sums = [0]*10
+		for i,party in enumerate(party.parties):
+			for n,issue in enumerate(party):
+				sums[i] += float((issue - self.issues[n])*(issue - self.issues[n]))
+			sums[i] /= party.N_ISSUES
+			sums[i] = math.sqrt(sums[i])
+		lowest = 2
+		best_match = -1
+		for n in range(0,len(sums)):
+			if sums[n] < lowest:
+				lowest = sums[n]
+				best_match = n
+		return party.parties[best_match]
+	
+	def calc_candidate(self, candidate):
+		issue_sum = 0
+		for i,issue in enumerate(candidate.issues):
+			issue_sum += float((issue - self.issues[i])*(issue-self.issues[i]))
+		issue_sum /= party.N_ISSUES
+		return math.sqrt(sum)

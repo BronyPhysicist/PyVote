@@ -1,0 +1,15 @@
+Info
+
+Version Standards
+
+Design_Change.Functionality_Change.Aesthetic_Change
+
+Version 0
+	0.0
+		0.0.0
+			Added Project
+	0.1
+		-Added first classes: party, town, citizen, and module generator
+		-Can generate list of citizens
+		0.1.1
+			-Added candidates, version information
