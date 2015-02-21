@@ -18,3 +18,4 @@ def issue_mod(issues, prob):
                         issues[n] -= 1
                     else:
                         issues[n] += 1
+    return issues

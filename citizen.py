@@ -3,6 +3,7 @@ from town import Town
 import util
 import party
 import math
+from party import political_avg
 
 class Citizen(object):
 	
@@ -11,7 +12,7 @@ class Citizen(object):
 		fake = Faker()
 		self.name = fake.name()
 		self.town = Town.rand_town()
-		self.issues = util.issue_mod(party.select_party())
+		self.issues = util.issue_mod(party.select_party(), 0.8)
 		
 	def calc_allegiance(self):
 		sums = [0]*10
@@ -36,11 +37,18 @@ class Citizen(object):
 		return math.sqrt(sum)
 	
 	def csv_string(self):
-		csv = self.name+","+self.town+','
+		csv = self.name+","+str(self.town)+','
 		for issue in self.issues:
 			csv += str(issue)+','
+		csv += str(self.political_avg())
 		if csv[-1] is ',':
 			csv = csv[:-1]
 		if csv[-1] is not '\n':
 			csv += '\n'
 		return csv
+	
+	def political_avg(self):
+		sm = 0
+		for issue in self.issues:
+			sm += issue
+		return sm/party.N_ISSUES
