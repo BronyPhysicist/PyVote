@@ -32,7 +32,7 @@ class Citizen(object):
 		for i,issue in enumerate(candidate.issues):
 			issue_sum += float((issue - self.issues[i])*(issue-self.issues[i]))
 		issue_sum /= party.N_ISSUES
-		return math.sqrt(sum)
+		return math.sqrt(issue_sum)
 	
 	def csv_string(self):
 		csv = self.name+","+str(self.town)+','
@@ -50,6 +50,17 @@ class Citizen(object):
 		for issue in self.issues:
 			sm += issue
 		return sm/party.N_ISSUES
+	
+	def vote(self, candidates):
+		choices = []
+		for i in range(0,3):
+			lowest = 4
+			for n,candidate in enumerate(candidates):
+				if self.calc_candidate(candidate) < lowest:
+					best_score = n
+					lowest = self.calc_candidate(candidate)
+			choices.append(candidates.pop(best_score))
+		return choices
 	
 def read_citizens_csv(fname):
 	citizens = []
