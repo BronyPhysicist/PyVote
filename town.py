@@ -27,6 +27,9 @@ class Town(Enum):
 	
 	def add_person(self, citizen):
 		self.pop.append(citizen)
+		
+	def empty(self):
+		self.pop = []
 	
 	def __str__(self):
 		return self.name

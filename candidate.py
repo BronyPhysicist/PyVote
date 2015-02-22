@@ -14,3 +14,6 @@ class Candidate():
             return self.name == other.name and self.party is other.party
         else:
             return False
+        
+    def __str__(self):
+        return self.name+'/'+self.party
